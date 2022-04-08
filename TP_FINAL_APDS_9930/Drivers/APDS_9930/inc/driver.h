@@ -8,6 +8,8 @@
 #ifndef APDS_9930_INC_DRIVER_H_
 #define APDS_9930_INC_DRIVER_H_
 
+#include<port.h>
+
 /*APDS-9930 I2C DEVICE ADDRESS */
 #define SENSOR_I2C_ADDR 0x39
 
@@ -51,6 +53,42 @@
 #define SENSOR_AIEN           0x16
 #define SENSOR_PIEN           0x32
 #define SENSOR_SAI            0x64
+
+/* CAMPOS RELACIONOS CON REGISTRO DE CONFIGURACION (CONFIG) (0x0D)*/
+
+#define CONFIG_PDL            0x01 //Proximity Drive Level -> Reduce la corriente del LDR Drive por 9//
+#define CONFIG_WLONG          0x02 //Wait Long -> Los ciclos de espera se aumentan por 12x de lo que está programado en WTIME register//
+#define CONFIG_AGL            0x04 //ALS gain level -> la ganancia 1X y 8X son escalados por 0.16 de otra forma se escala por 1//
+
+/* CAMPOS RELACIONOS CON EL REGISTRO DE CONTROL (0x0F)*/
+
+/* VALORES DE GANANCIA DEL SENSOR DE LUZ AMBIENTE (AGAIN)*/
+#define AGAIN_1X               0x00
+#define AGAIN_8X               0x01
+#define AGAIN_16X              0x02
+#define AGAIN_120X             0x03
+
+/* VALORES DE GANANCIA SENSOR DE PROXIMIDAD (PGAIN) */
+#define PGAIN_1X               0x00
+#define PGAIN_2X               0x04
+#define PGAIN_4X               0x08
+#define PGAIN_8X               0x0C
+
+/* SELECCION DEL DIODO USADO PARA LA DETECCION DE PROXIMIDAD (EL RESTO DE BIT 5:4 ESTAN RESERVADOS)*/ 
+#define PDIODE_CH1_DIODE       0x20
+
+/* SELECCION DE LA INTENSIDAD DE LOS LED USADOS PARA LA DETECCION DE PROXIMIDAD*/ 
+#define PDRIVE_100MA           0x00
+#define PDRIVE_50MA            0x40
+#define PDRIVE_25MA            0x80
+#define PDRIVE_12_5MA          0xC0
+
+
+
+
+
+bool init_APDS9930(void);
+
 
 
 
