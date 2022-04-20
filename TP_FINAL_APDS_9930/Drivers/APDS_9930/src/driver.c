@@ -25,24 +25,64 @@ uint8_t APDS9930_Read_ID(void){
 }
 
 bool lightSensorOn(void){
-
+	
+    if( !setAmbientLightGain(DEFAULT_AGAIN) ) {
+        return false;
+    }
+    
+    if( !powerOnSensor() ){
+        return false;
+    }
+    if( !setOperation(SENSOR_AEN, 1) ) {
+        return false;
+    }
+    
+    return true;
 
 }
 
 bool lightSensorOff(void){
-
-
+	if( !setOperation(SENSOR_PEN, 0) ) {
+        	return false;
+    	}
+	else{
+		return true;
+	}
 }
 
 bool proximitySensorOn(void){
+	
+   if( !setProximityGain(DEFAULT_PGAIN) ) {
+        return false;
+    }
+    if( !setLEDIntensity(DEFAULT_PDRIVE) ) {
+        return false;
+    }
+    
+    if( !powerOnSensor() ){
+        return false;
+    }
+    
+   if( !setOperation(SENSOR_PEN, 1) ) {
+        return false;
+    }
 
-
+return true;
+	
 }
 
 bool proximitySensorOff(void){
 
-
+	if( !setOperation(SENSOR_PEN, 0) ) {
+        	return false;
+    	}
+	else{
+		return true;
+	}
+	
+		
 }
+
 
 bool setAmbientLightGain(uint8_t again){
 	uint8_t dato_read=0;
@@ -115,7 +155,60 @@ bool setLEDIntensity(uint8_t pdrive){
 
 	   return true;
 
+}
 
+bool powerOffSensor(void){
+	uint8_t dato_write= 0x00;  //Escribo 0x00 en el registro enable para desactivar el sensor//
+	
+	if( !APDS9930_WriteByte(SENSOR_ENABLE, &dato_write) ) {
+	           return false;
+	      }
+	else{
+		   return true;
+	}
+	
+}
+
+bool powerOnSensor(void){
+	uint8_t enable_read=0;
+
+	  if( !APDS9930_ReadByte(SENSOR_ENABLE, &enable_read) ) {
+	         return false;
+	     }
+
+	   enable_read = enable_read | SENSOR_PON ;  //PON = Power ON//
+
+	  if( !APDS9930_WriteByte(SENSOR_ENABLE, &enable_read) ) {
+	           return false;
+	      }
+
+	   return true;
+}
+
+bool setOperation(uint8_t modo, uint8_t enable){
+	uint8_t enable_read=0;
+
+	if( !APDS9930_ReadByte(SENSOR_ENABLE, &enable_read) ) {
+	        return false;
+	    }
+	
+	if(enable){
+		modo = modo | enable_read;
+		if( !APDS9930_WriteByte(SENSOR_ENABLE, &modo) ) {
+	           return false;
+	      	} 	
+	}
+	else{
+		modo = ~modo;
+		modo = modo & enable_read;
+		if( !APDS9930_WriteByte(SENSOR_ENABLE, &modo) ) {
+	           return false;
+	      	} 	
+	
+	}
+	
+	return true;
+	
 }
 
 
@@ -145,4 +238,6 @@ bool APDS9930_WriteByte(uint8_t registro, uint8_t *dato){
 
 		return true;
 }
+
+
 
