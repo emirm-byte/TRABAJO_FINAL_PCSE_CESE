@@ -108,6 +108,9 @@
 bool APDS9930_ReadByte(uint8_t registro, uint8_t *dato);
 bool APDS9930_WriteByte(uint8_t registro, uint8_t *dato);
 bool APDS9930_Init(void);
+bool powerOffSensor(void);
+bool powerOnSensor(void);
+bool setOperation(uint8_t modo, uint8_t enable);
 uint8_t APDS9930_Read_ID(void);
 bool lightSensorOn(void);
 bool lightSensorOff(void);
