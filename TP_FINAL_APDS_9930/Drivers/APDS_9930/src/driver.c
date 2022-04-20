@@ -121,18 +121,15 @@ bool setLEDIntensity(uint8_t pdrive){
 
 bool APDS9930_ReadByte(uint8_t registro, uint8_t *dato){
 
-	if(!I2C_APDS_Transmit(SENSOR_I2C_ADDR<<1, (uint8_t *)(registro | REPEATED_BYTE), 1)){
+	if(!I2C_APDS_Transmit(SENSOR_I2C_ADDR, (uint8_t *)(registro | REPEATED_BYTE), 1)){
 
-		uartSendString("TRANSMISION NO OK");
 		return false;
 	}
 
 	if(!I2C_APDS_Receive(SENSOR_I2C_ADDR, dato, 1)){
-		uartSendString("RECEPCION NO OK");
-				return false;
-			}
-
-	    uartSendString("Lectura OK");
+		return false;
+	}
+	
 		return true;
 }
 
@@ -146,7 +143,6 @@ bool APDS9930_WriteByte(uint8_t registro, uint8_t *dato){
 		return false;
 	}
 
-	uartSendString("Escritura OK");
-	return true;
+		return true;
 }
 
