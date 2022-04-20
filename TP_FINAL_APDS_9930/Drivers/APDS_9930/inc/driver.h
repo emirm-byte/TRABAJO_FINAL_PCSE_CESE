@@ -11,7 +11,7 @@
 #include <port.h>
 
 /*APDS-9930 I2C DEVICE ADDRESS */
-#define SENSOR_I2C_ADDR 0x39
+#define SENSOR_I2C_ADDR (0x39 << 1)
 
 /*MODOS REGISTRO COMMAND*/
 #define REPEATED_BYTE           0x80
