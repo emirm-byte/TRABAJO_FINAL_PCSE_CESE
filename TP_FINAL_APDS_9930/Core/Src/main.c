@@ -19,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "string.h"
-#include <port.h>
+#include <driver.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -53,6 +53,7 @@ UART_HandleTypeDef huart3;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
+void uartSendString(uint8_t *pstring);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -93,9 +94,16 @@ int main(void)
   MX_USART3_UART_Init();
 
   I2C_APDS_Init();              //INICIO EL PUERTO I2C//
-  APDS_Int_Init();              //INICIO EL PIN DE INTERRUPCION DEL SENSOR//
+  //APDS_Int_Init();              //INICIO EL PIN DE INTERRUPCION DEL SENSOR//
 
   /* USER CODE BEGIN 2 */
+
+  const char *mensaje1    = "==> INICIANDO APDS9930\r\n";
+  uartSendString((uint8_t *)mensaje1);
+  uint8_t c = 0;
+  c = APDS9930_Read_ID();
+
+
 
   /* USER CODE END 2 */
 
@@ -194,6 +202,20 @@ static void MX_USART3_UART_Init(void)
   /* USER CODE END USART3_Init 2 */
 
 }
+
+
+void uartSendString(uint8_t *pstring){
+
+	uint8_t largo=0;
+
+	while(*(pstring+largo) != 0) largo++;
+
+
+	HAL_UART_Transmit(&huart3, pstring, largo, HAL_MAX_DELAY);
+
+}
+
+
 
 /**
   * @brief GPIO Initialization Function

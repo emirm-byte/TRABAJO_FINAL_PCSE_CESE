@@ -1,5 +1,5 @@
 Drivers/APDS_9930/src/port.o: ../Drivers/APDS_9930/src/port.c \
- /home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_Ejemplo/Drivers/APDS_9930/inc/port.h \
+ /home/emiliano/Materias\ CESE/5\ -\ Protocolos\ de\ Comunicacion\ en\ SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/inc/port.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -33,7 +33,7 @@ Drivers/APDS_9930/src/port.o: ../Drivers/APDS_9930/src/port.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
  ../Core/Inc/main.h
-/home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_Ejemplo/Drivers/APDS_9930/inc/port.h:
+/home/emiliano/Materias\ CESE/5\ -\ Protocolos\ de\ Comunicacion\ en\ SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/inc/port.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:

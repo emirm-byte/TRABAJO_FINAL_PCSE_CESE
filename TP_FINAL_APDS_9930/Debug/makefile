@@ -35,34 +35,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := I2C_Ejemplo
+BUILD_ARTIFACT_NAME := TP_FINAL_APDS_9930
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-I2C_Ejemplo.elf \
+TP_FINAL_APDS_9930.elf \
 
 MAP_FILES += \
-I2C_Ejemplo.map \
+TP_FINAL_APDS_9930.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-I2C_Ejemplo.list \
+TP_FINAL_APDS_9930.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: I2C_Ejemplo.elf secondary-outputs
+main-build: TP_FINAL_APDS_9930.elf secondary-outputs
 
 # Tool invocations
-I2C_Ejemplo.elf I2C_Ejemplo.map: $(OBJS) $(USER_OBJS) /home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_Ejemplo/STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "I2C_Ejemplo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_Ejemplo/STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="I2C_Ejemplo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+TP_FINAL_APDS_9930.elf TP_FINAL_APDS_9930.map: $(OBJS) $(USER_OBJS) /home/emiliano/Materias\ CESE/5\ -\ Protocolos\ de\ Comunicacion\ en\ SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "TP_FINAL_APDS_9930.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/emiliano/Materias CESE/5 - Protocolos de Comunicacion en SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TP_FINAL_APDS_9930.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -71,14 +71,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-I2C_Ejemplo.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "I2C_Ejemplo.list"
+TP_FINAL_APDS_9930.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "TP_FINAL_APDS_9930.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) I2C_Ejemplo.elf I2C_Ejemplo.list I2C_Ejemplo.map default.size.stdout
+	-$(RM) TP_FINAL_APDS_9930.elf TP_FINAL_APDS_9930.list TP_FINAL_APDS_9930.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

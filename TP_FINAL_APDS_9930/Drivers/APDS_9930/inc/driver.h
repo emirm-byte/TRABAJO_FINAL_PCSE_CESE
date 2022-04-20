@@ -2,13 +2,13 @@
  * driver.h
  *
  *  Created on: 26 mar. 2022
- *      Author: emiliano
+ *      Author: Emiliano Eduardo Rodriguez
  */
 
 #ifndef APDS_9930_INC_DRIVER_H_
 #define APDS_9930_INC_DRIVER_H_
 
-#include<port.h>
+#include <port.h>
 
 /*APDS-9930 I2C DEVICE ADDRESS */
 #define SENSOR_I2C_ADDR 0x39
@@ -83,13 +83,40 @@
 #define PDRIVE_25MA            0x80
 #define PDRIVE_12_5MA          0xC0
 
+/* VALORES DE INICIO POR DEFECTO*/
+
+/* Default values */
+#define DEFAULT_ATIME           0xED
+#define DEFAULT_WTIME           0xFF
+#define DEFAULT_PTIME           0xFF
+#define DEFAULT_PPULSE          0x08
+#define DEFAULT_POFFSET         0       // 0 offset
+#define DEFAULT_CONFIG          0
+#define DEFAULT_PDRIVE          PDRIVE_100MA
+#define DEFAULT_PDIODE          PDIODE_CH1_DIODE
+#define DEFAULT_PGAIN           PGAIN_8X
+#define DEFAULT_AGAIN           AGAIN_1X
+#define DEFAULT_PILT            0       // Low proximity threshold
+#define DEFAULT_PIHT            50      // High proximity threshold
+#define DEFAULT_AILT            0xFFFF  // Force interrupt for calibration
+#define DEFAULT_AIHT            0
+#define DEFAULT_PERS            0x22    // 2 consecutive prox or ALS for int.
 
 
+//FUNCIONES DEL DRIVER APDS9930//
 
-
-bool init_APDS9930(void);
-
-
+bool APDS9930_ReadByte(uint8_t registro, uint8_t *dato);
+bool APDS9930_WriteByte(uint8_t registro, uint8_t *dato);
+bool APDS9930_Init(void);
+uint8_t APDS9930_Read_ID(void);
+bool lightSensorOn(void);
+bool lightSensorOff(void);
+bool proximitySensorOn(void);
+bool proximitySensorOff(void);
+bool setAmbientLightGain(uint8_t again);
+bool setProximityGain(uint8_t pgain);
+bool setProximityDiode(uint8_t pdiode);
+bool setLEDIntensity(uint8_t pdrive);
 
 
 
