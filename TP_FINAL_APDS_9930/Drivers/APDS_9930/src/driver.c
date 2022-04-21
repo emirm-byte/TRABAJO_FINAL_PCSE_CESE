@@ -216,14 +216,19 @@ bool APDS9930_ReadByte(uint8_t registro, uint8_t *dato){
 
 	if(!I2C_APDS_Transmit(SENSOR_I2C_ADDR, (uint8_t *)(registro | REPEATED_BYTE), 1)){
 
+		uartSendString("TX NOOK");
+
 		return false;
 	}
 
 	if(!I2C_APDS_Receive(SENSOR_I2C_ADDR, dato, 1)){
+		uartSendString("RX NOOK");
+
 		return false;
 	}
 	
 		return true;
+		uartSendString("TX OK");
 }
 
 bool APDS9930_WriteByte(uint8_t registro, uint8_t *dato){

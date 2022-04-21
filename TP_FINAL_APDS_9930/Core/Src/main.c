@@ -102,6 +102,7 @@ int main(void)
   uartSendString((uint8_t *)mensaje1);
   uint8_t c = 0;
   c = APDS9930_Read_ID();
+  uartSendString((uint8_t *)c);
 
 
 
