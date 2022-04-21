@@ -11,7 +11,7 @@
 #include <port.h>
 
 /*APDS-9930 I2C DEVICE ADDRESS */
-#define SENSOR_I2C_ADDR 0x39
+#define SENSOR_I2C_ADDR (0x0039 << 1)
 
 /*MODOS REGISTRO COMMAND*/
 #define REPEATED_BYTE           0x80
@@ -54,6 +54,16 @@
 #define SENSOR_PIEN           0x32
 #define SENSOR_SAI            0x64
 
+/* PARAMETROS setOperation */
+#define POWER                   0
+#define AMBIENT_LIGHT           1
+#define PROXIMITY               2
+#define WAIT                    3
+#define AMBIENT_LIGHT_INT       4
+#define PROXIMITY_INT           5
+#define SLEEP_AFTER_INT         6
+#define ALL                     7
+
 /* CAMPOS RELACIONOS CON REGISTRO DE CONFIGURACION (CONFIG) (0x0D)*/
 
 #define CONFIG_PDL            0x01 //Proximity Drive Level -> Reduce la corriente del LDR Drive por 9//
@@ -94,7 +104,7 @@
 #define DEFAULT_CONFIG          0
 #define DEFAULT_PDRIVE          PDRIVE_100MA
 #define DEFAULT_PDIODE          PDIODE_CH1_DIODE
-#define DEFAULT_PGAIN           PGAIN_8X
+#define DEFAULT_PGAIN           PGAIN_1X
 #define DEFAULT_AGAIN           AGAIN_1X
 #define DEFAULT_PILT            0       // Low proximity threshold
 #define DEFAULT_PIHT            50      // High proximity threshold
@@ -102,10 +112,18 @@
 #define DEFAULT_AIHT            0
 #define DEFAULT_PERS            0x22    // 2 consecutive prox or ALS for int.
 
+/* ALS coeficientes */
+#define DF  52
+#define GA  0.49
+#define ALS_B  1.862
+#define ALS_C  0.746
+#define ALS_D  1.291
+
 
 //FUNCIONES DEL DRIVER APDS9930//
 
 bool APDS9930_ReadByte(uint8_t registro, uint8_t *dato);
+bool APDS9930_ReadWord(uint8_t registro, uint16_t *dato);
 bool APDS9930_WriteByte(uint8_t registro, uint8_t *dato);
 bool APDS9930_Init(void);
 bool powerOffSensor(void);
@@ -117,10 +135,20 @@ bool lightSensorOff(void);
 bool proximitySensorOn(void);
 bool proximitySensorOff(void);
 bool setAmbientLightGain(uint8_t again);
+uint8_t getAmbientLightGain(void);
 bool setProximityGain(uint8_t pgain);
 bool setProximityDiode(uint8_t pdiode);
 bool setLEDIntensity(uint8_t pdrive);
-
+bool setATIME(uint8_t atime);
+bool setWTIME(uint8_t wtime);
+bool setPTIME(uint8_t ptime);
+bool setPPULSE(uint8_t ppulse);
+bool setPOFFSET(uint8_t poffset);
+bool setCONFIG(uint8_t config);
+bool readCh0Light(uint16_t *val_ch0);
+bool readCh1Light(uint16_t *val_ch1);
+bool readAmbientLight(float *val);
+bool readProximity(uint16_t *val);
 
 
 #endif /* APDS_9930_INC_DRIVER_H_ */

@@ -1,4 +1,4 @@
 ../Drivers/APDS_9930/src/port.c:13:6:I2C_APDS_Init	8	static
-../Drivers/APDS_9930/src/port.c:34:6:APDS_Int_Init	32	static
-../Drivers/APDS_9930/src/port.c:50:9:I2C_APDS_Transmit	32	static
-../Drivers/APDS_9930/src/port.c:63:9:I2C_APDS_Receive	32	static
+../Drivers/APDS_9930/src/port.c:49:6:APDS_Int_Init	32	static
+../Drivers/APDS_9930/src/port.c:66:9:I2C_APDS_Write	40	static
+../Drivers/APDS_9930/src/port.c:80:9:I2C_APDS_Read	40	static

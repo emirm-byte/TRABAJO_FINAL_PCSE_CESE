@@ -1,6 +1,6 @@
 Drivers/APDS_9930/src/driver.o: ../Drivers/APDS_9930/src/driver.c \
- /home/emiliano/Materias\ CESE/5\ -\ Protocolos\ de\ Comunicacion\ en\ SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/inc/driver.h \
- /home/emiliano/Materias\ CESE/5\ -\ Protocolos\ de\ Comunicacion\ en\ SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/inc/port.h \
+ /home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_TESt/Drivers/APDS_9930/inc/driver.h \
+ /home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_TESt/Drivers/APDS_9930/inc/port.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -21,7 +21,6 @@ Drivers/APDS_9930/src/driver.o: ../Drivers/APDS_9930/src/driver.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_eth.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
@@ -29,12 +28,9 @@ Drivers/APDS_9930/src/driver.o: ../Drivers/APDS_9930/src/driver.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
-/home/emiliano/Materias\ CESE/5\ -\ Protocolos\ de\ Comunicacion\ en\ SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/inc/driver.h:
-/home/emiliano/Materias\ CESE/5\ -\ Protocolos\ de\ Comunicacion\ en\ SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/inc/port.h:
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+/home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_TESt/Drivers/APDS_9930/inc/driver.h:
+/home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_TESt/Drivers/APDS_9930/inc/port.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -55,7 +51,6 @@ Drivers/APDS_9930/src/driver.o: ../Drivers/APDS_9930/src/driver.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_eth.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h:
@@ -64,6 +59,3 @@ Drivers/APDS_9930/src/driver.o: ../Drivers/APDS_9930/src/driver.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
-../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:

@@ -16,7 +16,7 @@ S_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Core/Startup/%.o: ../Core/Startup/%.s Core/Startup/subdir.mk
-	arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -I"/home/emiliano/Materias CESE/5 - Protocolos de Comunicacion en SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/src" -I"/home/emiliano/Materias CESE/5 - Protocolos de Comunicacion en SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930" -I"/home/emiliano/Materias CESE/5 - Protocolos de Comunicacion en SE/TRABAJO_FINAL_PCSE_CESE/TP_FINAL_APDS_9930/Drivers/APDS_9930/inc" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -I"/home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_TESt/Drivers/APDS_9930" -I"/home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_TESt/Drivers/APDS_9930/src" -I"/home/emiliano/STM32CubeIDE/workspace_1.9.0/I2C_TESt/Drivers/APDS_9930/inc" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
 
 clean: clean-Core-2f-Startup
 

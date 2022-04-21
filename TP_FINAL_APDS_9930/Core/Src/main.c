@@ -18,8 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "string.h"
-#include <driver.h>
+#include "driver.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -43,7 +42,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 UART_HandleTypeDef huart3;
-
 
 /* USER CODE BEGIN PV */
 
@@ -92,21 +90,24 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART3_UART_Init();
-
-  I2C_APDS_Init();              //INICIO EL PUERTO I2C//
-  //APDS_Int_Init();              //INICIO EL PIN DE INTERRUPCION DEL SENSOR//
-
+  //MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
 
-  const char *mensaje1    = "==> INICIANDO APDS9930\r\n";
-  uartSendString((uint8_t *)mensaje1);
-  uint8_t c = 0;
-  c = APDS9930_Read_ID();
-  uartSendString((uint8_t *)c);
-
-
+  I2C_APDS_Init();              //INICIO EL PUERTO I2C//
 
   /* USER CODE END 2 */
+
+  char buffer[20]={0};
+
+  float luz_ambiente = 0;
+  uint16_t proximidad = 0;
+  uint16_t ch0,ch1;
+
+   APDS9930_Init();
+
+   lightSensorOn();
+   proximitySensorOn();
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -114,6 +115,25 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+	 readAmbientLight(&luz_ambiente);
+	 sprintf(buffer, "Luz Ambiente=%ld \n\r",(uint16_t)luz_ambiente);
+	 uartSendString((uint8_t *)buffer);
+
+
+	 readProximity(&proximidad);
+	 sprintf(buffer, "Proximidad=%ld \n\r",(uint16_t)proximidad);
+	 uartSendString((uint8_t *)buffer);
+
+	 readCh0Light(&ch0);
+	 sprintf(buffer, "ch0=%ld \n\r",(uint16_t)ch0);
+	 uartSendString((uint8_t *)buffer);
+
+	 readCh0Light(&ch1);
+	 sprintf(buffer, "ch1=%ld \n\r",(uint16_t)ch1);
+	 uartSendString((uint8_t *)buffer);
+
+
+	 HAL_Delay(2000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -164,12 +184,53 @@ void SystemClock_Config(void)
   }
 }
 
-
 /**
-  * @brief I2C1 Initialization Function
+  * @brief I2C2 Initialization Function
   * @param None
   * @retval None
   */
+//static void MX_I2C2_Init(void)
+//{
+//
+//  /* USER CODE BEGIN I2C2_Init 0 */
+//
+//  /* USER CODE END I2C2_Init 0 */
+//
+//  /* USER CODE BEGIN I2C2_Init 1 */
+//
+//  /* USER CODE END I2C2_Init 1 */
+//  hi2c2.Instance = I2C2;
+//  hi2c2.Init.ClockSpeed = 100000;
+//  hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
+//  hi2c2.Init.OwnAddress1 = 0;
+//  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+//  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+//  hi2c2.Init.OwnAddress2 = 0;
+//  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+//  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+//  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Analogue filter
+//  */
+//  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_DISABLE) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//
+//  /** Configure Digital filter
+//  */
+//  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//  /* USER CODE BEGIN I2C2_Init 2 */
+//
+//  /* USER CODE END I2C2_Init 2 */
+//
+//}
 
 /**
   * @brief USART3 Initialization Function
@@ -204,20 +265,6 @@ static void MX_USART3_UART_Init(void)
 
 }
 
-
-void uartSendString(uint8_t *pstring){
-
-	uint8_t largo=0;
-
-	while(*(pstring+largo) != 0) largo++;
-
-
-	HAL_UART_Transmit(&huart3, pstring, largo, HAL_MAX_DELAY);
-
-}
-
-
-
 /**
   * @brief GPIO Initialization Function
   * @param None
@@ -229,6 +276,7 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -238,6 +286,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : USER_Btn_Pin */
   GPIO_InitStruct.Pin = USER_Btn_Pin;
@@ -245,12 +295,36 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USER_Btn_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : RMII_MDC_Pin RMII_RXD0_Pin RMII_RXD1_Pin */
+  GPIO_InitStruct.Pin = RMII_MDC_Pin|RMII_RXD0_Pin|RMII_RXD1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : RMII_REF_CLK_Pin RMII_MDIO_Pin RMII_CRS_DV_Pin */
+  GPIO_InitStruct.Pin = RMII_REF_CLK_Pin|RMII_MDIO_Pin|RMII_CRS_DV_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pins : LD1_Pin LD3_Pin LD2_Pin */
   GPIO_InitStruct.Pin = LD1_Pin|LD3_Pin|LD2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : RMII_TXD1_Pin */
+  GPIO_InitStruct.Pin = RMII_TXD1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
+  HAL_GPIO_Init(RMII_TXD1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : USB_PowerSwitchOn_Pin */
   GPIO_InitStruct.Pin = USB_PowerSwitchOn_Pin;
@@ -265,7 +339,42 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : USB_SOF_Pin USB_ID_Pin USB_DM_Pin USB_DP_Pin */
+  GPIO_InitStruct.Pin = USB_SOF_Pin|USB_ID_Pin|USB_DM_Pin|USB_DP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USB_VBUS_Pin */
+  GPIO_InitStruct.Pin = USB_VBUS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USB_VBUS_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : RMII_TX_EN_Pin RMII_TXD0_Pin */
+  GPIO_InitStruct.Pin = RMII_TX_EN_Pin|RMII_TXD0_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
 }
+
+
+void uartSendString(uint8_t *pstring){
+
+	uint8_t largo=0;
+
+	while(*(pstring+largo) != 0) largo++;
+
+
+	HAL_UART_Transmit(&huart3, pstring, largo, HAL_MAX_DELAY);
+
+}
+
 
 /* USER CODE BEGIN 4 */
 
