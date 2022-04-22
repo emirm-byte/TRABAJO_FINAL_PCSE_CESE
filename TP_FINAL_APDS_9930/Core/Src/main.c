@@ -108,6 +108,12 @@ int main(void)
    lightSensorOn();
    proximitySensorOn();
 
+   uint16_t registro=0;;
+   APDS9930_ReadByte(SENSOR_ENABLE, &registro);
+   sprintf(buffer, "REG_ENA=%ld \n\r",(uint16_t)registro);
+   uartSendString((uint8_t *)buffer);
+
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -115,23 +121,27 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+
+	 ch0=0;
+	 readCh0Light(&ch0);
+	 sprintf(buffer, "ch0=%ld \n\r",(uint16_t)ch0);
+	 uartSendString((uint8_t *)buffer);
+
+	 ch1=0;
+	 readCh1Light(&ch1);
+	 sprintf(buffer, "ch1=%ld \n\r",(uint16_t)ch1);
+	 uartSendString((uint8_t *)buffer);
+
+	 luz_ambiente=0;
 	 readAmbientLight(&luz_ambiente);
 	 sprintf(buffer, "Luz Ambiente=%ld \n\r",(uint16_t)luz_ambiente);
 	 uartSendString((uint8_t *)buffer);
 
 
+	 proximidad =0;
 	 readProximity(&proximidad);
 	 sprintf(buffer, "Proximidad=%ld \n\r",(uint16_t)proximidad);
 	 uartSendString((uint8_t *)buffer);
-
-	 readCh0Light(&ch0);
-	 sprintf(buffer, "ch0=%ld \n\r",(uint16_t)ch0);
-	 uartSendString((uint8_t *)buffer);
-
-	 readCh0Light(&ch1);
-	 sprintf(buffer, "ch1=%ld \n\r",(uint16_t)ch1);
-	 uartSendString((uint8_t *)buffer);
-
 
 	 HAL_Delay(2000);
     /* USER CODE BEGIN 3 */

@@ -52,6 +52,10 @@ bool APDS9930_Init(void){
 	        return false;
 	            }
 
+	if( !setOperation(SENSOR_WEN, 1) ) {
+	        return false;
+	    }
+
 	return true;
 }
 
@@ -345,8 +349,8 @@ bool readCh1Light(uint16_t *val_ch1) {
 }
 
 bool readAmbientLight(float *val){
-	uint16_t ch0;
-	uint16_t ch1;
+	uint16_t ch0=0;
+	uint16_t ch1=0;
 	uint8_t x[4]={1,8,16,120};
 	float ALSIT, iac1, iac2, iac, lpc;
 
@@ -379,7 +383,7 @@ bool readAmbientLight(float *val){
 
 bool readProximity(uint16_t *val){
 
-	if(!APDS9930_ReadWord(SENSOR_CH1DATAL, val)){
+	if(!APDS9930_ReadWord(SENSOR_PDATAL, val)){
 	    return false;
 	  }
 	  else
@@ -406,7 +410,7 @@ bool APDS9930_ReadWord(uint8_t registro, uint16_t *dato){
 
 	uint8_t buff[2]={0};
 
-	if(!I2C_APDS_Read(registro | REPEATED_BYTE, buff, 2)){
+	if(!I2C_APDS_Read(registro | AUTO_INCREMENT, buff, 2)){
 				return false;
 			}
 

@@ -73,20 +73,20 @@ uint8_t I2C_APDS_Write(uint16_t direccion_registro, uint8_t *data, uint16_t size
 	    else{
 	      return 1;
 	    }
-
+	 HAL_Delay(100);
 }
 
 
 uint8_t I2C_APDS_Read(uint16_t direccion_registro, uint8_t *data, uint16_t size){
 	HAL_StatusTypeDef ret;
 
-	HAL_I2C_Mem_Read(&hi2c2, SENSOR_I2C_ADDR, direccion_registro, I2C_MEMADD_SIZE_8BIT, data, size, HAL_MAX_DELAY);
+	ret = HAL_I2C_Mem_Read(&hi2c2, SENSOR_I2C_ADDR, direccion_registro, I2C_MEMADD_SIZE_8BIT, data, size, HAL_MAX_DELAY);
 		 if ( ret != HAL_OK ) {
 		    return 0;
 		  }
 		  else{
 		    return 1;
 		  }
-
+     HAL_Delay(100);
 }
 
